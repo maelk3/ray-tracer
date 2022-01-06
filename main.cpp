@@ -1,15 +1,14 @@
 #include <iostream>
-#include "image.h"
+#include "vec.h"
 
 int main(){
 
-  Image test(256, 256);
+  vec3 a(1, 2, 3);
 
-  for(int i=0; i<256; i++)
-    for(int j=0; j<256; j++)
-      test(i, j) = {255, (unsigned char)j, (unsigned char)i};
+  vec3 b = (a + a) + a;
 
-  test.save_as("test.bmp");
-
+  std::cout << b << "\n";
+  std::cout << b.norm() << "\n";
+  
   return 0;
 }
