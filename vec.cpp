@@ -83,6 +83,10 @@ vec3 operator+(vec3&& a, const vec3& b){
   return a+=b;
 }
 
+vec3 operator+(vec3&& a, vec3&& b){
+  return a+=b;
+}
+
 vec3 operator-(const vec3& a, vec3&& b){
   b[0] = a[0]-b[0];
   b[1] = a[1]-b[1];
@@ -94,6 +98,9 @@ vec3 operator-(vec3&& a, const vec3& b){
   return a-=b;
 }
 
+vec3 operator-(vec3&& a, vec3&& b){
+  return a-=b;
+}
 
 vec3 cross(const vec3& a, const vec3& b){
   return {a.y()*b.z()-a.z()*b.y(),

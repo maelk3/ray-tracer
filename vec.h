@@ -38,9 +38,11 @@ vec3 operator+(const vec3& vec);
 
 vec3 operator+(const vec3& a, vec3&& b);
 vec3 operator+(vec3&& a, const vec3& b);
+vec3 operator+(vec3&& a, vec3&& b);
 
 vec3 operator-(const vec3& a, vec3&& b);
 vec3 operator-(vec3&& a, const vec3& b);
+vec3 operator-(vec3&& a, vec3&& b);
 
 float dot(const vec3& a, const vec3& b);
 
