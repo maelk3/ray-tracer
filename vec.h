@@ -4,6 +4,7 @@
 class vec3 {
   float data[3];
  public:
+  vec3();
   vec3(float x, float y, float z);
 
   // position getters
@@ -47,5 +48,7 @@ vec3 operator-(vec3&& a, vec3&& b);
 float dot(const vec3& a, const vec3& b);
 
 vec3 cross(const vec3& a, const vec3& b);
+
+vec3 unit_vector(vec3 vec);
 
 std::ostream& operator<<(std::ostream& stream, const vec3& vec);

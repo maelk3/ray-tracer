@@ -1,6 +1,8 @@
 #include "vec.h"
 #include <cmath>
 
+vec3::vec3(){}
+
 vec3::vec3(float x, float y, float z){
   data[0] = x;
   data[1] = y;
@@ -110,6 +112,10 @@ vec3 cross(const vec3& a, const vec3& b){
 
 float dot(const vec3& a, const vec3& b){
   return a.x()*b.x() + a.y()*b.y() + a.z()*b.z();
+}
+
+vec3 unit_vector(vec3 vec){
+  return vec.normalize();
 }
 
 std::ostream& operator<<(std::ostream& stream, const vec3& vec){
