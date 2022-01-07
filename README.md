@@ -1,1 +1,3 @@
-**Simple ray tracer**
+# Simple ray tracer
+
+![test image](/test.bmp)
