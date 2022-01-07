@@ -1,7 +1,12 @@
 #pragma once
 #include <string>
+#include "vec.h"
 
-struct Color {
+class Color {
+public:
+  Color() = default;
+  Color(const vec3& col);
+  Color& operator=(const vec3& col);
   unsigned char r, g, b;
 };
 

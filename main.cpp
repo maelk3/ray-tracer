@@ -25,7 +25,7 @@ int main(){
   vec3 origin {0.0, 0.0, 0.0};
 
   vec3 red {1.0, 0.0, 0.0};
-  Sphere sphere(vec3(0.0, 0.0, -1.0), red, 0.5);
+  Surface* sphere = new Sphere(vec3(0.0, 0.0, -1.0), red, 0.5);
   
   for(int j=0; j<width; j++){
     for(int i=0; i<height; i++){
@@ -35,18 +35,14 @@ int main(){
       vec3 col;
       
       unsigned char r, g, b;
-      if(sphere.intersect(ray)){
-	col = sphere.color();
-	vec3 hit = sphere.hit_point(ray);
-	vec3 normal = (hit-sphere.center()).normalize();
-	col = 0.5*(normal + vec3(1.0, 1.0, 1.0));
+      HitInfo hit_info;
+      if(sphere->hit(ray, 0.0, 1000.0, hit_info)){
+	col = 0.5*(hit_info.normal + vec3(1.0, 1.0, 1.0));
       }else{
 	col = background_color(ray);
       }
-      r = (unsigned char)(255*col.r());
-      g = (unsigned char)(255*col.g());
-      b = (unsigned char)(255*col.b());			           
-      img(i, j) = {b, g, r};
+      
+      img(i, j) = col;
     }
   }
 

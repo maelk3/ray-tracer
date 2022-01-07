@@ -3,6 +3,18 @@
 #include <algorithm>
 #include <iterator>
 
+Color::Color(const vec3& col) : r((unsigned char)(255*col.b())),
+				g((unsigned char)(255*col.g())),
+				b((unsigned char)(255*col.r())) {}
+
+Color& Color::operator=(const vec3& col){
+  r = (unsigned char)(255*col.b());
+  g = (unsigned char)(255*col.g());
+  b = (unsigned char)(255*col.r());
+  return *this;
+}
+
+
 Image::Image(int w, int h) : width(w), height(h), image_data(new Color[width*height]) {}
 
 Image::~Image(){

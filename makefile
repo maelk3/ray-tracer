@@ -6,11 +6,13 @@ ray_tracer: $(OBJECTS)
 
 main.o: vec.h ray.h
 
-image.o: image.h
+vec.o: image.h
+
+image.o:
 
 ray.o: vec.h
 
-sphere.o: vec.h ray.h
+sphere.o: vec.h sphere.h surface.h
 
 .PHONY: clean
 
