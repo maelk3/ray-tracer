@@ -3,4 +3,5 @@ a.out
 ref/*
 *.sh
 *.o
+*.bmp
 ray_tracer

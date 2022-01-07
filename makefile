@@ -1,8 +1,9 @@
 
 OBJECTS=main.o vec.o ray.o image.o sphere.o
+CXXFLAGS= -std=c++11
 
 ray_tracer: $(OBJECTS)
-	g++ -o ray_tracer -std=c++11 $(OBJECTS) && ./ray_tracer && feh -Z --force-aliasing test.bmp
+	c++ -o ray_tracer $(OBJECTS) && ./ray_tracer && feh -Z --force-aliasing test.bmp
 
 main.o: vec.h ray.h
 
