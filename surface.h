@@ -1,9 +1,12 @@
 #pragma once
 #include "ray.h"
+#include <limits>
 
-struct HitInfo {
+class HitInfo {
+public:
+  HitInfo() : t(std::numeric_limits<float>::max()) {}
   float t;
-  vec3 p;
+  vec3 color;
   vec3 normal;
 };
 

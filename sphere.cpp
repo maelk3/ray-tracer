@@ -17,6 +17,7 @@ bool Sphere::hit(const Ray& ray, float t_min, float t_max, HitInfo& hit_info) co
   if(discriminant >= 0.0 && dot(ray.direction(), center_) >= 0.0){
     hit_info.t = (-b - sqrt(discriminant))/(2.0*a);
     hit_info.normal = (ray.origin()+hit_info.t*ray.direction()-center_).normalize();
+    hit_info.color = 0.5*(hit_info.normal + vec3(1.0, 1.0, 1.0));
     return true;
   }else{
     return false;
