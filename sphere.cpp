@@ -1,7 +1,7 @@
 #include "sphere.h"
 #include <cmath>
 
-Sphere::Sphere(const vec3& center, const vec3& color, float radius) : center_(center), color_(color), radius_(radius) {}
+Sphere::Sphere(const vec3& center, const vec3& color, float radius) : center_(center), color_(color), radius_(radius), Surface(Material::Diffuse) {}
 
 const vec3& Sphere::center() const { return center_; }
 const vec3& Sphere::color() const { return color_; }
@@ -17,7 +17,8 @@ bool Sphere::hit(const Ray& ray, float t_min, float t_max, HitInfo& hit_info) co
   if(discriminant >= 0.0 && dot(ray.direction(), center_) >= 0.0){
     hit_info.t = (-b - sqrt(discriminant))/(2.0*a);
     hit_info.normal = (ray.origin()+hit_info.t*ray.direction()-center_).normalize();
-    hit_info.color = 0.5*(hit_info.normal + vec3(1.0, 1.0, 1.0));
+    hit_info.color = color_;
+    hit_info.mat = this->mat;
     return true;
   }else{
     return false;

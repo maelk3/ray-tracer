@@ -7,23 +7,40 @@
 
 #include "image.h"
 #include <random>
+#include <limits>
 
-constexpr int NB_SAMPLES = 50;
+constexpr int NB_SAMPLES = 100;
 
-vec3 background_color(const Ray& ray){
-  vec3 dir = unit_vector(ray.direction());
-  float t = 0.5*(dir.y()+1.0);
-  return (1.0-t)*vec3(1.0, 1.0, 1.0) + t*vec3(0.5, 0.7, 1.0);
+static std::random_device rd; 
+static std::mt19937 gen(rd());
+static std::uniform_real_distribution<> dis(0.0, 1.0);
+
+vec3 random_unit_vector(std::uniform_real_distribution<>& dis, std::mt19937& gen){
+  float x = 2.0*dis(gen)-1.0;
+  float y = 2.0*dis(gen)-1.0;
+  float z = 2.0*dis(gen)-1.0;
+  return vec3(x, y, z).normalize();
+}
+
+vec3 color(const Ray& ray, SurfaceList& scene){
+  HitInfo hit_info;
+  scene.hit(ray, 0, std::numeric_limits<float>::max(), hit_info);
+  if(hit_info.mat == Material::Solid){
+    return hit_info.color;
+  }else{
+    vec3 rand_dir = random_unit_vector(dis, gen);
+    if(dot(rand_dir, hit_info.normal) < 0){
+      rand_dir *= -1.0;
+    }
+    Ray diffusion_ray(ray.origin() + hit_info.t*ray.direction(), rand_dir);
+    return 0.5*color(diffusion_ray, scene);
+  }
 }
 
 int main(){
 
-  std::random_device rd; 
-  std::mt19937 gen(rd());
-  std::uniform_real_distribution<> dis(0.0, 1.0);
-
-  int width = 800;
-  int height = 400;
+  int width = 400;
+  int height = 200;
 
   Image img(width, height);
 
@@ -33,14 +50,16 @@ int main(){
   vec3 origin {0.0, 0.0, 0.0};
 
   vec3 red {1.0, 0.0, 0.0};
+  vec3 blue {0.0, 0.0, 1.0};
+  
   Sphere sphere1(vec3(0.0, 0.0, -1.0), red, 0.5);
-  Sphere sphere2(vec3(1.0, 0.5, -2), red, 0.8);
+  Sphere sphere2(vec3(0.0, -100.5, -1.0), blue, 100.0);
   
   BackgroundGradient bg;
-  SurfaceList list;
-  list.push_back(&sphere1);
-  list.push_back(&sphere2);
-  list.push_back(&bg);
+  SurfaceList scene;
+  scene.push_back(&sphere1);
+  scene.push_back(&sphere2);
+  scene.push_back(&bg);
   
   for(int j=0; j<width; j++){
     for(int i=0; i<height; i++){
@@ -49,11 +68,7 @@ int main(){
 	float u = (float(j)+dis(gen))/float(width);
 	float v = (float(i)+dis(gen))/float(height);
 	Ray ray(origin, low_left_corner + u*horizontal + v*vertical);
-      
-	unsigned char r, g, b;
-	HitInfo hit_info;
-	list.hit(ray, 0, 100000000, hit_info);
-	col += hit_info.color;
+	col += color(ray, scene);
       }
       col *= 1/((float)NB_SAMPLES);
       img(i, j) = col;      
