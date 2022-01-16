@@ -16,11 +16,11 @@ bool Lambertian::scatter(const Ray& ray, const HitInfo& hit_info, vec3& attenuat
 
 
 
-Metal::Metal(const vec3& albedo) : albedo(albedo) {}
+Metal::Metal(const vec3& albedo, float fuzziness) : albedo(albedo), fuzziness(fuzziness) {}
 bool Metal::scatter(const Ray& ray, const HitInfo& hit_info, vec3& attenuation, Ray& scattered) const {
   vec3 direction = unit_vector(ray.direction());
   vec3 reflected = direction - 2.0*dot(direction, hit_info.normal)*hit_info.normal;
-  scattered = Ray(hit_info.hit_point, reflected.normalize());
+  scattered = Ray(hit_info.hit_point, reflected + fuzziness*get_random_unit());
   attenuation = albedo;
   return (dot(scattered.direction(), hit_info.normal) > 0);
 }

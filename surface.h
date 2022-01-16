@@ -24,9 +24,10 @@ public:
 
 class Metal : public Material {
 public:
-  Metal(const vec3& albedo);
+  Metal(const vec3& albedo, float fuzziness);
   virtual bool scatter(const Ray& ray, const HitInfo& hit_info, vec3& attenuation, Ray& scattered) const;
   vec3 albedo;
+  float fuzziness;
 };
 
 class Solid : public Material {
