@@ -41,8 +41,8 @@ vec3 color(const Ray& ray, SurfaceList& scene, int depth){
 
 int main(){
 
-  int width = 400;
-  int height = 200;
+  int width = 800;
+  int height = 400;
 
   Image img(width, height);
 
@@ -53,8 +53,8 @@ int main(){
 
   Sphere sphere1(vec3(0.0, 0.0, -1.0), 0.5, new Lambertian(vec3(0.8, 0.3, 0.3)));
   Sphere sphere2(vec3(0.0, -100.5, -1.0), 100.0, new Lambertian(vec3(0.8, 0.8, 0.0)));
-  Sphere sphere3(vec3(1.0, 0.0, -1.0), 0.5, new Lambertian(vec3(0.8, 0.6, 0.2)));
-  Sphere sphere4(vec3(-1.0, 0.0, -1.0), 0.5, new Lambertian(vec3(0.8, 0.8, 0.8)));
+  Sphere sphere3(vec3(1.0, 0.0, -1.0), 0.5, new Metal(vec3(0.8, 0.6, 0.2)));
+  Sphere sphere4(vec3(-1.0, 0.0, -1.0), 0.5, new Metal(vec3(0.8, 0.8, 0.8)));
   
   SurfaceList scene;
   scene.push_back(&sphere1);
