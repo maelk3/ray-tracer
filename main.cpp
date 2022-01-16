@@ -8,15 +8,16 @@
 #include "ray.h"
 #include "sphere.h"
 #include "list.h"
+#include "preview.h"
 
 #include "image.h"
 
-constexpr int NB_SAMPLES = 5000;
+constexpr int NB_SAMPLES = 300;
 constexpr int MAX_DEPTH = 200;
 constexpr int NB_THREADS = 6;
 
-constexpr int WIDTH = 800;
-constexpr int HEIGHT = 400;
+constexpr int WIDTH = 200;
+constexpr int HEIGHT = 100;
 
 vec3 color(const Ray& ray, SurfaceList& scene, int depth){
   HitInfo hit_info;
@@ -80,6 +81,9 @@ int main(){
   for(int l=0; l<NB_THREADS; l++){
     threads[l].join();
   }
+
+  std::thread preview_thread {preview, WIDTH, HEIGHT, std::ref(img)};
+  preview_thread.join();
 
   img.save_as("test.bmp");
   

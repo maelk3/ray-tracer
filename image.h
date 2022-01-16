@@ -12,9 +12,8 @@ public:
 
 class Image {
   int width, height;
-  Color* image_data;
-
  public:
+  Color* image_data;
   Image(int w, int h);
   ~Image();
 

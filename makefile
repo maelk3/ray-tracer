@@ -1,9 +1,9 @@
 
-OBJECTS=main.o vec.o ray.o image.o sphere.o list.o surface.o
-CXXFLAGS= -std=c++11
+OBJECTS=main.o vec.o ray.o image.o sphere.o list.o surface.o shader.o preview.o
+CXXFLAGS= -std=c++11 -pthread -lGLEW -lglut -lGL
 
 ray_tracer: $(OBJECTS)
-	g++ $(CXXFLAGS) -pthread -o ray_tracer $(OBJECTS)
+	g++ $(CXXFLAGS) -o ray_tracer $(OBJECTS)
 
 main.o: vec.h ray.h
 
@@ -19,10 +19,14 @@ surface.o: vec.h surface.h
 
 list.o: list.h vec.h surface.h
 
+preview.o: preview.h image.h
+
+shader.o: shader.h
+
 .PHONY: clean, run
 
 clean:
 	rm $(OBJECTS) ray_tracer test.bmp
 
 run: ray_tracer
-	(time ./ray_tracer) && (feh -Z --force-aliasing test.bmp)
+	(time ./ray_tracer)
