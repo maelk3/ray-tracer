@@ -1,10 +1,9 @@
 #include "sphere.h"
 #include <cmath>
 
-Sphere::Sphere(const vec3& center, const vec3& color, float radius) : center_(center), color_(color), radius_(radius), Surface(Material::Diffuse) {}
+Sphere::Sphere(const vec3& center, float radius, Material* mat) : center_(center), radius_(radius), Surface(mat) {}
 
 const vec3& Sphere::center() const { return center_; }
-const vec3& Sphere::color() const { return color_; }
 float Sphere::radius() const { return radius_; }
 
 bool Sphere::hit(const Ray& ray, float t_min, float t_max, HitInfo& hit_info) const {
@@ -13,11 +12,12 @@ bool Sphere::hit(const Ray& ray, float t_min, float t_max, HitInfo& hit_info) co
   float b = 2.0*dot(oc, ray.direction());
   float c = dot(oc, oc) - radius_*radius_;
   float discriminant = b*b-4*a*c;
+  float t = (-b - sqrt(discriminant))/(2.0*a);
 
-  if(discriminant >= 0.0 && dot(ray.direction(), center_) >= 0.0){
-    hit_info.t = (-b - sqrt(discriminant))/(2.0*a);
-    hit_info.normal = (ray.origin()+hit_info.t*ray.direction()-center_).normalize();
-    hit_info.color = color_;
+  if(discriminant >= 0.0 && dot(ray.direction(), center_) >= 0.0 && (t_min <= t) && (t <= t_max)){
+    hit_info.t = t;
+    hit_info.hit_point = ray.origin() + t*ray.direction();
+    hit_info.normal = (hit_info.hit_point-center_).normalize();
     hit_info.mat = this->mat;
     return true;
   }else{

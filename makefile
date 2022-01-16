@@ -1,5 +1,5 @@
 
-OBJECTS=main.o vec.o ray.o image.o sphere.o background.o list.o
+OBJECTS=main.o vec.o ray.o image.o sphere.o list.o surface.o
 CXXFLAGS= -std=c++11
 
 ray_tracer: $(OBJECTS)
@@ -17,9 +17,7 @@ sphere.o: vec.h sphere.h surface.h
 
 surface.o: vec.h surface.h
 
-background.o: vec.h surface.h
-
-list.o: vec.h surface.h
+list.o: list.h vec.h surface.h
 
 .PHONY: clean
 

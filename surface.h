@@ -1,22 +1,42 @@
 #pragma once
 #include "ray.h"
-#include <limits>
 
-enum class Material {Diffuse, Solid};
+class Material;
 
-class HitInfo {
-public:
-  HitInfo() : t(std::numeric_limits<float>::max()) {}
+struct HitInfo {
   float t;
-  vec3 color;
+  vec3 hit_point;
   vec3 normal;
-  Material mat;
+  Material* mat;
+};
+
+class Material {
+public:
+  virtual bool scatter(const Ray& ray, const HitInfo& hit_info, vec3& attenuation, Ray& scattered) const = 0;
+};
+
+class Lambertian : public Material {
+public:
+  Lambertian(const vec3& albedo);
+  virtual bool scatter(const Ray& ray, const HitInfo& hit_info, vec3& attenuation, Ray& scattered) const;
+  vec3 albedo;
+};
+
+class Metal : public Material {
+public:
+  Metal(const vec3& albedo);
+  virtual bool scatter(const Ray& ray, const HitInfo& hit_info, vec3& attenuation, Ray& scattered) const;
+  vec3 albedo;
+};
+
+class Solid : public Material {
+public:
+  virtual bool scatter(const Ray& ray, const HitInfo& hit_info, vec3& attenuation, Ray& scattered) const;
 };
 
 class Surface {
  public:
-  Material mat;
-  Surface(Material mat) : mat(mat) {}
-  Surface() : mat(Material::Solid) {}
+  Material* mat;
+  Surface(Material* mat) : mat(mat) {}
   virtual bool hit(const Ray& ray, float t_min, float t_max, HitInfo& hit_info) const = 0;
 };

@@ -5,6 +5,7 @@
 class Ray {
   vec3 origin_, direction_;
  public:
+  Ray() = default;
   template<typename T, typename U>
     Ray(T&& origin, U&& direction) : origin_(std::forward<T>(origin)), direction_(std::forward<U>(direction)){}
   

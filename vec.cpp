@@ -1,5 +1,6 @@
 #include "vec.h"
 #include <cmath>
+#include <stdlib.h>
 
 vec3::vec3(){}
 
@@ -70,6 +71,10 @@ vec3 operator*(float scalar, const vec3& vec){
   return {scalar*vec.x(), scalar*vec.y(), scalar*vec.z()};
 }
 
+vec3 operator*(const vec3& a, const vec3& b){
+  return {a.x()*b.x(), a.y()*b.y(), a.z()*b.z()};
+}
+
 vec3 operator-(const vec3& vec){
   return {-vec.x(), -vec.y(), -vec.z()};
 }
@@ -120,4 +125,12 @@ vec3 unit_vector(vec3 vec){
 
 std::ostream& operator<<(std::ostream& stream, const vec3& vec){
   return  stream << "vec3(" << vec.x() << ", " << vec.y() << ", " << vec.z() << ")";
+}
+
+float random_uniform(){
+  return (float)rand()/((float)RAND_MAX);
+}
+
+vec3 get_random_unit(){
+  return vec3(2.0*random_uniform()-1.0, 2.0*random_uniform()-1.0, 2.0*random_uniform()-1.0).normalize();
 }

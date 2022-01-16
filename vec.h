@@ -33,6 +33,7 @@ class vec3 {
 vec3 operator+(const vec3& a, const vec3& b);
 vec3 operator-(const vec3& a, const vec3& b);
 vec3 operator*(float scalar, const vec3& vec);
+vec3 operator*(const vec3& a, const vec3& b);
 
 vec3 operator-(const vec3& vec);
 vec3 operator+(const vec3& vec);
@@ -52,3 +53,6 @@ vec3 cross(const vec3& a, const vec3& b);
 vec3 unit_vector(vec3 vec);
 
 std::ostream& operator<<(std::ostream& stream, const vec3& vec);
+
+float random_uniform();
+vec3 get_random_unit();
