@@ -25,4 +25,4 @@ clean:
 	rm $(OBJECTS) ray_tracer test.bmp
 
 run: ray_tracer
-	./ray_tracer && feh -Z --force-aliasing test.bmp
+	(time ./ray_tracer) && (feh -Z --force-aliasing test.bmp)

@@ -11,7 +11,7 @@
 
 #include "image.h"
 
-constexpr int NB_SAMPLES = 1000;
+constexpr int NB_SAMPLES = 5000;
 constexpr int MAX_DEPTH = 200;
 constexpr int NB_THREADS = 6;
 
@@ -63,8 +63,8 @@ int main(){
   Sphere sphere1(vec3(0.0, 0.0, -1.0), 0.5, new Lambertian(vec3(0.2, 0.1, 1.0)));
   Sphere sphere2(vec3(0.0, -100.5, -1.0), 100.0, new Lambertian(vec3(0.07, 0.8, 0.1)));
   Sphere sphere3(vec3(1.0, 0.0, -1.0), 0.5, new Metal(vec3(0.8, 0.5, 0.0), 0.5));
-  Sphere sphere4(vec3(-1.0, 0.0, -1.0), 0.5, new Metal(vec3(0.8, 0.8, 0.8), 0.0));
-  Sphere sphere5(vec3(-0.5, -0.4, -0.7), 0.2, new Metal(vec3(1.0, 0.0, 1.0), 0.1));
+  Sphere sphere4(vec3(-1.0, 0.0, -1.0), 0.5, new Metal(vec3(0.8, 0.8, 0.8), 0.3));
+  Sphere sphere5(vec3(-0.5, -0.4, -0.7), 0.2, new Metal(vec3(1.0, 0.0, 1.0), 1.0));
   
   SurfaceList scene;
   scene.push_back(&sphere1);
