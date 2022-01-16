@@ -12,12 +12,12 @@
 
 #include "image.h"
 
-constexpr int NB_SAMPLES = 300;
+constexpr int NB_SAMPLES = 1000;
 constexpr int MAX_DEPTH = 200;
 constexpr int NB_THREADS = 6;
 
-constexpr int WIDTH = 200;
-constexpr int HEIGHT = 100;
+constexpr int WIDTH = 400;
+constexpr int HEIGHT = 200;
 
 vec3 color(const Ray& ray, SurfaceList& scene, int depth){
   HitInfo hit_info;
@@ -37,8 +37,8 @@ vec3 color(const Ray& ray, SurfaceList& scene, int depth){
 }
 
 void render_rectangle(int i_min, int i_max, int j_min, int j_max, SurfaceList& scene, vec3 low_left_corner, vec3 horizontal, vec3 vertical, vec3 origin, Image& img){
-  for(int j=j_min; j<j_max; j++){
-    for(int i=i_min; i<i_max; i++){
+  for(int i=i_max-1; i>=i_min; i--){
+    for(int j=j_min; j<j_max; j++){
       vec3 col(0.0, 0.0, 0.0);
       for(int k=0; k<NB_SAMPLES; k++){
 	float u = (float(j)+random_uniform())/float(WIDTH);
@@ -52,9 +52,9 @@ void render_rectangle(int i_min, int i_max, int j_min, int j_max, SurfaceList& s
   }
 }
 
-int main(){
+static Image img(WIDTH, HEIGHT);
 
-  Image img(WIDTH, HEIGHT);
+int main(){
 
   vec3 low_left_corner {-2.0, -1.0, -1.0};
   vec3 horizontal {4.0, 0.0, 0.0};
@@ -78,11 +78,12 @@ int main(){
   for(int l=0; l<NB_THREADS; l++){
     threads[l] = std::thread{render_rectangle, (int)(l*nb_rows), (int)((l+1)*nb_rows), 0, WIDTH, std::ref(scene), low_left_corner, horizontal, vertical, origin, std::ref(img)};
 }
+
+  std::thread preview_thread {preview, WIDTH, HEIGHT, std::ref(img)};
   for(int l=0; l<NB_THREADS; l++){
     threads[l].join();
   }
-
-  std::thread preview_thread {preview, WIDTH, HEIGHT, std::ref(img)};
+ 
   preview_thread.join();
 
   img.save_as("test.bmp");
