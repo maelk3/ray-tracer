@@ -6,6 +6,6 @@ in vec2 out_tex_coord;
 out vec4 fColor;
 
 void main(){
-    fColor = texture(tex, out_tex_coord);
+    fColor = texture(tex, out_tex_coord).zyxw;
 }
 

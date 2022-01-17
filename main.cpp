@@ -14,7 +14,7 @@
 
 #include "image.h"
 
-constexpr int NB_SAMPLES = 5000;
+constexpr int NB_SAMPLES = 3000;
 constexpr int MAX_DEPTH = 100;
 constexpr int NB_THREADS = 6;
 
@@ -63,9 +63,9 @@ int main(){
   vec3 vertical {0.0, 2.0, 0.0};
   vec3 origin {0.0, 0.0, 0.0};
 
-  Sphere sphere1(vec3(0.0, 0.0, -1.0), 0.5, new Metal(new UniformTexture(vec3(0.2, 0.1, 1.0)), 0.0));
-  Sphere sphere2(vec3(0.0, -1000.5, -1.0), 1000.0, new Lambertian(new CheckerBoard(vec3(0.3, 0.2, 0.5), vec3(1.0, 1.0, 1.0), 0.1)));
-  Sphere sphere3(vec3(1.0, 0.0, -1.0), 0.5, new Metal(new UniformTexture(vec3(0.8, 0.5, 0.0)), 0.5));
+  Sphere sphere1(vec3(0.0, 0.0, -1.0), 0.5, new Metal(new UniformTexture(vec3(1.0, 0.1, 0.2)), 0.05));
+  Sphere sphere2(vec3(0.0, -1000.5, -1.0), 1000.0, new Metal(new CheckerBoard(vec3(0.5, 0.2, 0.3), vec3(1.0, 1.0, 1.0), 0.1), 0.0));
+  Sphere sphere3(vec3(1.0, 0.0, -1.0), 0.5, new Metal(new UniformTexture(vec3(0.0, 0.5, 0.8)), 0.5));
   Sphere sphere4(vec3(-1.0, 0.0, -1.0), 0.5, new Metal(new UniformTexture(vec3(0.8, 0.8, 0.8)), 0.3));
   Sphere sphere5(vec3(-0.5, -0.4, -0.7), 0.2, new Metal(new CheckerBoard(vec3(1.0, 1.0, 0.0), vec3(0.0, 1.0, 1.0), 0.01), 0.1));  
   
