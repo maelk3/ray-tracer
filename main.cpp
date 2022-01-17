@@ -9,15 +9,17 @@
 #include "sphere.h"
 #include "list.h"
 #include "preview.h"
+#include "surface.h"
+#include "texture.h"
 
 #include "image.h"
 
-constexpr int NB_SAMPLES = 1000;
-constexpr int MAX_DEPTH = 200;
+constexpr int NB_SAMPLES = 5000;
+constexpr int MAX_DEPTH = 100;
 constexpr int NB_THREADS = 6;
 
-constexpr int WIDTH = 400;
-constexpr int HEIGHT = 200;
+constexpr int WIDTH = 800;
+constexpr int HEIGHT = 400;
 
 vec3 color(const Ray& ray, SurfaceList& scene, int depth){
   HitInfo hit_info;
@@ -61,11 +63,11 @@ int main(){
   vec3 vertical {0.0, 2.0, 0.0};
   vec3 origin {0.0, 0.0, 0.0};
 
-  Sphere sphere1(vec3(0.0, 0.0, -1.0), 0.5, new Lambertian(vec3(0.2, 0.1, 1.0)));
-  Sphere sphere2(vec3(0.0, -100.5, -1.0), 100.0, new Lambertian(vec3(0.07, 0.8, 0.1)));
-  Sphere sphere3(vec3(1.0, 0.0, -1.0), 0.5, new Metal(vec3(0.8, 0.5, 0.0), 0.5));
-  Sphere sphere4(vec3(-1.0, 0.0, -1.0), 0.5, new Metal(vec3(0.8, 0.8, 0.8), 0.3));
-  Sphere sphere5(vec3(-0.5, -0.4, -0.7), 0.2, new Metal(vec3(1.0, 0.0, 1.0), 1.0));
+  Sphere sphere1(vec3(0.0, 0.0, -1.0), 0.5, new Metal(new UniformTexture(vec3(0.2, 0.1, 1.0)), 0.0));
+  Sphere sphere2(vec3(0.0, -1000.5, -1.0), 1000.0, new Lambertian(new CheckerBoard(vec3(0.3, 0.2, 0.5), vec3(1.0, 1.0, 1.0), 0.1)));
+  Sphere sphere3(vec3(1.0, 0.0, -1.0), 0.5, new Metal(new UniformTexture(vec3(0.8, 0.5, 0.0)), 0.5));
+  Sphere sphere4(vec3(-1.0, 0.0, -1.0), 0.5, new Metal(new UniformTexture(vec3(0.8, 0.8, 0.8)), 0.3));
+  Sphere sphere5(vec3(-0.5, -0.4, -0.7), 0.2, new Metal(new CheckerBoard(vec3(1.0, 1.0, 0.0), vec3(0.0, 1.0, 1.0), 0.01), 0.1));  
   
   SurfaceList scene;
   scene.push_back(&sphere1);
@@ -75,7 +77,7 @@ int main(){
   scene.push_back(&sphere5);
   std::thread  threads[NB_THREADS];
   float nb_rows = (float)HEIGHT/(float)NB_THREADS;
-  for(int l=0; l<NB_THREADS; l++){
+  for(int l=NB_THREADS-1; l>=0; l--){
     threads[l] = std::thread{render_rectangle, (int)(l*nb_rows), (int)((l+1)*nb_rows), 0, WIDTH, std::ref(scene), low_left_corner, horizontal, vertical, origin, std::ref(img)};
 }
 
@@ -83,10 +85,10 @@ int main(){
   for(int l=0; l<NB_THREADS; l++){
     threads[l].join();
   }
- 
-  preview_thread.join();
 
   img.save_as("test.bmp");
+  
+  preview_thread.join();
   
   return 0;
 }

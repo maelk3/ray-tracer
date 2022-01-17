@@ -2,6 +2,8 @@
 #include "shader.h"
 #include <GL/glew.h>
 #include <GL/freeglut.h>
+#include <thread>
+#include <chrono>
 
 static GLuint VAO;
 static GLuint VBO;
@@ -45,8 +47,8 @@ static void init(int width, int height, Image& img){
   glBufferData(GL_ARRAY_BUFFER, sizeof(quad_data), quad_data, GL_STATIC_DRAW);
 
   Shader_info shaders[2] = {
-    {GL_VERTEX_SHADER, "./texture.vert"},
-    {GL_FRAGMENT_SHADER, "./texture.frag"}
+    {GL_VERTEX_SHADER, "./preview.vert"},
+    {GL_FRAGMENT_SHADER, "./preview.frag"}
   };
     
   GLuint program = compile_shaders(shaders, 2);
@@ -70,13 +72,14 @@ static void init(int width, int height, Image& img){
 static void display(){
   glClear(GL_COLOR_BUFFER_BIT);
 
+ 
   glTexSubImage2D(GL_TEXTURE_2D,
 		  0,
 		  0, 0,
 		  width_, height_,
 		  GL_RGB, GL_UNSIGNED_BYTE,
 		  img_->image_data);
-
+   
   glBindBuffer(GL_ARRAY_BUFFER, VBO);
   glBindVertexArray(VAO);
 
@@ -84,6 +87,7 @@ static void display(){
   
   glFlush();
 
+  std::this_thread::sleep_for(std::chrono::milliseconds(1000));
   glutPostRedisplay();
 }
 

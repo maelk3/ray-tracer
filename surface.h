@@ -1,5 +1,6 @@
 #pragma once
 #include "ray.h"
+#include "texture.h"
 
 class Material;
 
@@ -17,16 +18,16 @@ public:
 
 class Lambertian : public Material {
 public:
-  Lambertian(const vec3& albedo);
+  Lambertian(Texture* albedo);
   virtual bool scatter(const Ray& ray, const HitInfo& hit_info, vec3& attenuation, Ray& scattered) const;
-  vec3 albedo;
+  Texture* albedo;
 };
 
 class Metal : public Material {
 public:
-  Metal(const vec3& albedo, float fuzziness);
+  Metal(Texture* albedo, float fuzziness);
   virtual bool scatter(const Ray& ray, const HitInfo& hit_info, vec3& attenuation, Ray& scattered) const;
-  vec3 albedo;
+  Texture* albedo;
   float fuzziness;
 };
 
