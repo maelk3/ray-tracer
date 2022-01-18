@@ -5,7 +5,7 @@ Examples:
 
 ![live preview](/demo.gif)
 
-![test image](/test.bmp)
+![test image](/demo.bmp)
 
 Dependencies:
 -------------
