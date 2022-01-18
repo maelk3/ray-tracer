@@ -1,15 +1,20 @@
 # Simple CPU multithreaded ray tracer
 
+Examples:
+---------
+
 ![test image](/test.bmp)
 
-Dependencies
-------------
+![live preview](/demo.gif)
+
+Dependencies:
+-------------
  - OpenGL 4.3 or higher
  - freeglut
  - GLEW
 
-Compile
--------
+Build:
+--------
 
 ```
 make .
