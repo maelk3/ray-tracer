@@ -3,9 +3,9 @@
 Examples:
 ---------
 
-![test image](/test.bmp)
-
 ![live preview](/demo.gif)
+
+![test image](/test.bmp)
 
 Dependencies:
 -------------
